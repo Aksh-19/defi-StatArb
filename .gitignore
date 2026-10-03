@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+env/
+venv/
+.env
+
+# Data
+research/data/raw/*
+!research/data/raw/.gitkeep
+*.db
+*.sqlite3
+
+# Solidity / Foundry
+contracts/cache/
+contracts/out/
+contracts/broadcast/
+contracts/.env
+
+# Jupyter
+.ipynb_checkpoints
+
+# OS
+.DS_Store
+
+# IDEs
+.idea/
+.vscode/
