@@ -77,3 +77,23 @@ significantly negative, i.e. whether there is a pull back toward the mean.
 
 **Check I did:** computed the ADF statistic by hand with a regression and
 matched the library to ~15 digits.
+
+**Check 2: the φ experiment (1,000 points).**
+
+| φ | ADF p | KPSS p | Verdict |
+|---|---|---|---|
+| 1.0 | 0.982 | 0.01 | non-stationary (correct) |
+| 0.99 | 0.246 | 0.01 | non-stationary (wrong: it is stationary) |
+| 0.95 | 0.0 | 0.028 | ambiguous (it is stationary) |
+| 0.5 | 0.0 | 0.1 | stationary (correct) |
+
+Lessons:
+- At φ = 0.99 (half-life ≈ 69 steps) both tests agreed and were both wrong,
+  because 1,000 points are not enough to tell it from a random walk.
+  Agreement between the tests is not proof.
+- At φ = 0.95, KPSS over-rejects a persistent but stationary series.
+
+**How I will use this.** ADF on the spread (through Engle-Granger) is the
+primary gate for screening pairs. KPSS is a supporting flag, and an
+"ambiguous" result does not automatically reject a pair. Half-life and
+out-of-sample validation make the final call.
