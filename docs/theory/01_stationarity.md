@@ -50,3 +50,30 @@ Prices on a DEX only change when someone trades in that pool, so related
 pools can drift apart between trades. Arbitrageurs close large gaps, but gas
 and swap fees leave small ones standing. Those small gaps are what we try to
 trade.
+
+## ADF and KPSS
+
+**ADF (Augmented Dickey-Fuller).** Rewrites the series as Δy_t = β·y_{t-1} + noise,
+where β = φ − 1. β = 0 means a random walk. The test asks whether β is
+significantly negative, i.e. whether there is a pull back toward the mean.
+- Null hypothesis: unit root (non-stationary).
+- Small p-value (< 0.05) → reject the null → evidence of stationarity.
+- The statistic is a t-statistic, but it follows the Dickey-Fuller distribution,
+  so critical values are more negative (about −2.86 at 5%).
+- Weakness: low power. It struggles to separate φ = 0.99 from φ = 1.
+
+**KPSS.** The reverse test.
+- Null hypothesis: the series is stationary.
+- Small p-value → reject → evidence of non-stationarity.
+
+**Why both.** Each test fails in a different way, so agreement is stronger evidence.
+
+| ADF | KPSS | Conclusion |
+|---|---|---|
+| stationary | stationary | strong evidence of stationarity |
+| non-stationary | non-stationary | clearly non-stationary |
+| stationary | non-stationary | ambiguous (possibly trend-stationary) |
+| non-stationary | stationary | ambiguous (weak mean reversion or low power) |
+
+**Check I did:** computed the ADF statistic by hand with a regression and
+matched the library to ~15 digits.
