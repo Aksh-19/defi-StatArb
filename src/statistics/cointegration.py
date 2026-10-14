@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 import numpy as np
 from statsmodels.tsa.stattools import coint
+from src.statistics.mean_reversion import compute_half_life
+
 
 @dataclass
 class CointegrationResult:
@@ -10,6 +12,7 @@ class CointegrationResult:
     hedge_ratio: float       # beta
     intercept: float         # alpha
     spread: np.ndarray       # y - alpha - beta * x
+    half_life: float
 
 def engle_granger(y, x, significance: float = 0.05) -> CointegrationResult:
     y, x = np.asarray(y, float), np.asarray(x, float)
@@ -23,4 +26,5 @@ def engle_granger(y, x, significance: float = 0.05) -> CointegrationResult:
     stat, pvalue, _ = coint(y, x, trend="c", autolag="aic")
 
     return CointegrationResult(pvalue < significance, pvalue, stat,
-                               hedge_ratio, intercept, spread)
+                               hedge_ratio, intercept, spread,
+                               compute_half_life(spread))
